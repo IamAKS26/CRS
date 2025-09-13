@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal | College Recommendation System</title>
+    <link rel="stylesheet" href="loginstyle.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <div class="form-container">
+            <div class="form-toggle">
+                <button id="login-toggle" class="toggle-btn active">Login</button>
+                <button id="register-toggle" class="toggle-btn">Register</button>
+            </div>
+
+            <form id="login-form" class="form">
+                <h3>Student Login</h3>
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" name="email" required>
+                    <small class="error-text"></small>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" required>
+                    <small class="error-text"></small>
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+                <p id="login-message" class="message"></p>
+            </form>
+
+            <form id="register-form" class="form hidden">
+                <h3>Create Student Account</h3>
+                <div class="form-group">
+                    <label for="register-name">Full Name</label>
+                    <input type="text" id="register-name" name="fullname" required>
+                    <small class="error-text"></small>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" name="email" required>
+                    <small class="error-text"></small>
+                </div>
+                <div class="form-group">
+                    <label for="register-stream">Preferred Stream BY Default(Engineering)</label>
+                    <select id="register-stream" name="stream" required>
+                       <option value="">-- Select a Stream --</option>
+                       <option value="engineering">All</option>
+                        <option value="engineering">Engineering</option>
+                        <!--  <option value="medical">Medical (PCB)</option>
+                        <option value="commerce">Commerce</option>
+                        <option value="arts">Arts / Humanities</option> -->
+                    </select>
+                    <small class="error-text"></small>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" name="password" required>
+                    <small class="error-text">Password must be at least 8 characters long.</small>
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm-password">Confirm Password</label>
+                    <input type="password" id="register-confirm-password" name="confirm_password" required>
+                    <small class="error-text"></small>
+                </div>
+                <button type="submit" class="submit-btn">Register</button>
+                <p id="register-message" class="message"></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="loginscript.js"></script>
+    <script src="buttonscript.js"></script>
+</body>
+</html>

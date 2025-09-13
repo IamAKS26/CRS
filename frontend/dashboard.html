@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | College Recommendation System</title>
+  <link rel="stylesheet" href="dashboardstyle.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="container">
+    <a href="index.html" class="logo">CollegeFinder</a>
+    <nav>
+      <ul>
+        <li><a href="dashboard.html" class="active">Dashboard</a></li>
+        <li><a href="studentprofile.html">My Profile</a></li>
+        <li><a href="#" id="logout-btn" class="btn-logout">Logout</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="dashboard-container">
+  <div class="container">
+    <div class="dashboard-header">
+      <h1>Welcome, <span id="student-name">Student</span>!</h1>
+      <p>Click the button below to get college recommendations based on your CET score.</p>
+    </div>
+
+    <!-- The form section is now just a single button -->
+    <section class="recommendation-form-section">
+      <form id="recommendation-form">
+        <button type="submit" class="btn-primary form-submit-btn">Get My Recommendations</button>
+      </form>
+    </section>
+
+    <section id="results-section" class="results-section">
+      <h2>Your Top Recommendations</h2>
+      <div id="loading-spinner" class="loading-spinner" style="display: none;"></div>
+      <div id="recommendations-grid" class="colleges-grid">
+        <p class="placeholder-text">Your recommended colleges will appear here.</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const token = localStorage.getItem("token");
+  const studentNameSpan = document.getElementById("student-name");
+  const logoutBtn = document.getElementById("logout-btn");
+  const form = document.getElementById("recommendation-form");
+  const resultsGrid = document.getElementById("recommendations-grid");
+  const loadingSpinner = document.getElementById("loading-spinner");
+
+  if (!token) {
+    window.location.href = "Student_login.html";
+    return;
+  }
+
+  // Display the user's name from localStorage
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (user) studentNameSpan.textContent = user.name;
+
+  logoutBtn.addEventListener("click", () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.href = "index.html";
+  });
+
+  // Main form submission logic
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    resultsGrid.innerHTML = "";
+    loadingSpinner.style.display = "block";
+
+    try {
+      // The request body is now empty because the backend uses the token
+      // to find the student's score automatically.
+      const res = await fetch("http://localhost:8080/api/colleges/recommend", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({}) // Sending an empty object
+      });
+
+      const data = await res.json();
+      loadingSpinner.style.display = "none";
+
+      if (res.ok && data.length > 0) {
+        // Display the results in a cleaner format
+        resultsGrid.innerHTML = data.map(college => `
+          <div class="college-card">
+            <div class="college-card-content">
+                <h3>${college.collegeName}</h3>
+                <p class="location">${college.location}</p>
+            </div>
+            <div class="college-card-footer">
+                <a href="${college.officialLink}" class="btn-details" target="_blank">Official Link</a>
+                <button class="btn-save" data-college-id="${college._id}">Save College</button>
+            </div>
+          </div>
+        `).join("");
+      } else {
+        // Handle cases where no colleges are found or there's an error
+        const errorData = await res.json().catch(() => ({}));
+        resultsGrid.innerHTML = `<p class='placeholder-text'>${errorData.message || 'No colleges found for your score. Please update your score in "My Profile".'}</p>`;
+      }
+    } catch (err) {
+      console.error("❌ Error fetching recommendations:", err);
+      resultsGrid.innerHTML = "<p class='placeholder-text'>A server error occurred. Please try again later.</p>";
+    }
+  });
+
+  // Event listener for the 'Save College' button
+  resultsGrid.addEventListener('click', async (e) => {
+      if (e.target.classList.contains('btn-save')) {
+          const saveButton = e.target;
+          const collegeId = saveButton.dataset.collegeId;
+          try {
+              const res = await fetch('http://localhost:8080/api/students/me/save-college', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                  body: JSON.stringify({ collegeId })
+              });
+              if (res.ok) {
+                  saveButton.textContent = 'Saved!';
+                  saveButton.disabled = true;
+              } else {
+                  const errorData = await res.json();
+                  alert(`Error: ${errorData.message}`);
+              }
+          } catch (err) {
+              console.error('Failed to save college:', err);
+              alert('An error occurred. Please try again.');
+          }
+      }
+  });
+});
+</script>
+
+</body>
+</html>

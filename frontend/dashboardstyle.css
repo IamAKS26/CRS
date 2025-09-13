@@ -1,0 +1,248 @@
+/* General Body and Font Styling */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --primary-color: #007BFF;
+    --secondary-color: #0056b3;
+    --background-color: #f0f4f8;
+    --text-color: #333;
+    --card-bg: #fff;
+    --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    --success-color: #28a745;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    line-height: 1.6;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Navbar (Existing styles are fine, no major changes) */
+.navbar {
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+.navbar nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+.navbar nav a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 600;
+    transition: color 0.3s;
+}
+.navbar nav a:hover, .navbar nav a.active {
+    color: var(--primary-color);
+}
+.btn-logout {
+    background: #e74c3c;
+    color: #fff !important;
+    padding: 8px 18px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.btn-logout:hover {
+    background: #c0392b;
+}
+
+
+/* Dashboard Layout */
+.dashboard-container {
+    padding: 40px 0;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+.dashboard-header h1 {
+    font-size: 2.8rem;
+    margin-bottom: 5px;
+}
+.dashboard-header p {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+/* Recommendation Form Section */
+.recommendation-form-section {
+    text-align: center;
+    margin-bottom: 50px;
+}
+.btn-primary {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    animation: pulse 2s infinite;
+}
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+/* Results Section & College Cards */
+.results-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+}
+
+.colleges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.college-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: fadeIn 0.5s ease-out forwards;
+}
+.college-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+.college-card-content {
+    padding: 25px;
+    flex-grow: 1;
+}
+.college-card-content h3 {
+    margin: 0 0 10px;
+    font-size: 1.4rem;
+    color: var(--secondary-color);
+}
+.college-card-content .location {
+    color: #777;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+.college-card-content .description {
+    font-size: 1rem;
+}
+
+.college-card-footer {
+    padding: 0 25px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f0f0f0;
+    margin: 20px 25px 0;
+    padding-top: 20px;
+}
+
+.btn-details, .btn-save {
+    padding: 10px 18px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    cursor: pointer;
+    border: none;
+}
+.btn-details {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+.btn-details:hover {
+    background-color: var(--secondary-color);
+}
+.btn-save {
+    background-color: transparent;
+    border: 2px solid var(--success-color);
+    color: var(--success-color);
+}
+.btn-save:hover {
+    background-color: var(--success-color);
+    color: #fff;
+}
+.btn-save:disabled {
+    background-color: var(--success-color);
+    color: #fff;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Loading Spinner & Placeholder */
+.loading-spinner {
+    margin: 50px auto;
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid var(--primary-color);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.placeholder-text {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #777;
+    padding: 40px;
+    background: #fdfdfd;
+    border: 2px dashed #eee;
+    border-radius: 10px;
+}
+
+/* Keyframes for button pulse */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
+}

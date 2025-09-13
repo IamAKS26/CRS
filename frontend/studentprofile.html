@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | College Recommendation System</title>
+    <link rel="stylesheet" href="profilestyle.css">
+
+    <script>
+      // ✅ Check if token exists
+      const token = localStorage.getItem("token");
+      if (!token) {
+        window.location.href = "Student_login.html"; // redirect if not logged in
+      }
+    </script>
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">CollegeFinder</a>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="studentprofile.html" class="active">My Profile</a></li>
+                    <li><a href="#" id="logout-btn" class="btn-logout">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="profile-page-container">
+            <aside class="profile-sidebar">
+                <div class="profile-picture">
+                    <img src="https://via.placeholder.com/640x480.png/a59090/000000?Text=640x480" 
+                         alt="Student Profile Picture" id="profile-img">
+                </div>
+                <h2 id="profile-name-display">Loading...</h2>
+                <p id="profile-email-display">Loading...</p>
+                <div class="profile-stats">
+                    <div><span id="saved-colleges">0</span> Saved Colleges</div>
+                    <div><span id="applications">0</span> Applications</div>
+                </div>
+            </aside>
+
+            <section class="profile-main">
+                <div class="profile-header">
+                    <h1>My Profile</h1>
+                    <div class="profile-actions">
+                        <button id="edit-button" class="btn-secondary">Edit Profile</button>
+                        <button id="save-button" class="btn-primary" style="display: none;">Save Changes</button>
+                    </div>
+                </div>
+
+                <form id="profile-form">
+                    <fieldset>
+                        <legend>Personal Details</legend>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fullname">Full Name:</label>
+                                <input type="text" id="fullname" name="fullname" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address:</label>
+                                <input type="email" id="email" name="email" disabled>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone">Phone Number(+91):</label>
+                                <input type="tel" id="phone" name="phone" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="city">City:</label>
+                                <input type="text" id="city" name="city" disabled>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Academic Details</legend>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="grade10">10th Percentage:</label>
+                                <input type="number" id="grade10" name="grade10" step="0.01" min="0" max="100" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="grade12">12th Percentage:</label>
+                                <input type="number" id="grade12" name="grade12" step="0.01" min="0" max="100" disabled>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                             <div class="form-group">
+                                <label for="stream">Preferred Stream:</label>
+                                <select id="stream" name="stream" disabled>
+                                    <option value="Engineering">Engineering (PCM)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="examScore">Entrance Exam (MHT-CET %ile):</label>
+                                <input type="number" id="examScore" name="examScore" step="0.01" min="0" max="100" disabled>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </section>
+        </div>
+    </main>
+
+   <div id="toast-notification" class="toast"></div>
+
+    <script>
+    const form = document.getElementById("profile-form");
+    const editBtn = document.getElementById("edit-button");
+    const saveBtn = document.getElementById("save-button");
+
+    // ✅ Fetch profile with improved logic
+    async function fetchProfile() {
+        try {
+            const res = await fetch("http://localhost:8080/api/students/me", {
+                method: "GET",
+                headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
+            });
+
+            if (!res.ok) {
+                // This will catch the 'Profile not found' error if it happens
+                throw new Error("Could not fetch profile. Please log in again.");
+            }
+
+            const data = await res.json();
+
+            // --- ROBUST FIX STARTS HERE ---
+
+            // 1. Safely display name and email if they exist
+            // This checks if the 'userId' object and its properties are available before trying to use them.
+            // This prevents the script from crashing.
+            if (data.userId && data.userId.name) {
+                document.getElementById("profile-name-display").textContent = data.userId.name;
+                document.getElementById("fullname").value = data.userId.name;
+            }
+            if (data.userId && data.userId.email) {
+                document.getElementById("profile-email-display").textContent = data.userId.email;
+                document.getElementById("email").value = data.userId.email;
+            }
+
+            // 2. Populate the rest of the form with existing data
+            document.getElementById("phone").value = data.phoneNumber || "";
+            document.getElementById("city").value = data.city || "";
+            document.getElementById("grade10").value = data.academicDetails?.tenthPercentage || "";
+            document.getElementById("grade12").value = data.academicDetails?.twelfthPercentage || "";
+            document.getElementById("stream").value = data.stream || "Engineering";
+            document.getElementById("examScore").value = data.academicDetails?.entranceExam?.score || "";
+
+            // 3. NOW, check if the profile is incomplete. This code will now be reached.
+            // This alert will trigger for brand new users right after signup.
+            if (!data.phoneNumber || !data.city || !data.academicDetails?.tenthPercentage) {
+                alert("Welcome! Please complete your academic and personal details to continue.");
+                editBtn.click(); // Automatically enable edit mode
+            }
+
+        } catch (err) {
+            console.error("Fetch profile error:", err); // Log the actual error for debugging
+            alert("Session expired or profile not found. Please log in again.");
+            localStorage.removeItem("token");
+            window.location.href = "Student_login.html";
+        }
+    }
+
+    fetchProfile();
+
+    // ✅ Enable editing (no changes needed here)
+    editBtn.addEventListener("click", () => {
+        form.querySelectorAll("input, select").forEach(input => {
+            // Keep email disabled as it's the unique identifier
+            if (input.name !== 'email') {
+                input.disabled = false;
+            }
+        });
+        editBtn.style.display = "none";
+        saveBtn.style.display = "inline-block";
+    });
+
+    // ✅ Save changes with validation (no changes needed here)
+    saveBtn.addEventListener("click", async () => {
+        const phone = document.getElementById("phone").value;
+        const grade10 = parseFloat(document.getElementById("grade10").value);
+        const grade12 = parseFloat(document.getElementById("grade12").value);
+        const examScore = parseFloat(document.getElementById("examScore").value);
+
+        if (phone && phone.length !== 10) {
+            alert("Error: Phone number must be exactly 10 digits.");
+            return;
+        }
+        if (grade10 < 0 || grade10 > 100) {
+            alert("Error: 10th Percentage must be between 0 and 100.");
+            return;
+        }
+        if (grade12 < 0 || grade12 > 100) {
+            alert("Error: 12th Percentage must be between 0 and 100.");
+            return;
+        }
+        if (examScore < 0 || examScore > 100) {
+            alert("Error: Entrance Exam Percentile must be between 0 and 100.");
+            return;
+        }
+
+        const updatedData = {
+            phoneNumber: phone,
+            city: document.getElementById("city").value,
+            academicDetails: {
+                tenthPercentage: grade10,
+                twelfthPercentage: grade12,
+                entranceExam: { score: examScore }
+            }
+        };
+
+        try {
+            const res = await fetch("http://localhost:8080/api/students/me", {
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(updatedData)
+            });
+
+            if (res.ok) {
+                alert("Profile updated successfully!");
+                saveBtn.style.display = "none";
+                editBtn.style.display = "inline-block";
+                form.querySelectorAll("input, select").forEach(input => input.disabled = true);
+                fetchProfile();
+            } else {
+                const data = await res.json();
+                alert(data.message || "Update failed");
+            }
+        } catch (err) {
+            alert("Server error while updating profile.");
+        }
+    });
+
+    // ✅ Logout (no changes needed here)
+    document.getElementById("logout-btn").addEventListener("click", () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user"); // Also remove user data on logout
+        window.location.href = "Student_login.html";
+    });
+</script>
+    
+    </body>
+</html>
