@@ -28,7 +28,6 @@
       <p>Click the button below to get college recommendations based on your CET score.</p>
     </div>
 
-    <!-- The form section is now just a single button -->
     <section class="recommendation-form-section">
       <form id="recommendation-form">
         <button type="submit" class="btn-primary form-submit-btn">Get My Recommendations</button>
@@ -59,7 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // Display the user's name from localStorage
   const user = JSON.parse(localStorage.getItem("user"));
   if (user) studentNameSpan.textContent = user.name;
 
@@ -69,45 +67,76 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "index.html";
   });
 
-  // Main form submission logic
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     resultsGrid.innerHTML = "";
     loadingSpinner.style.display = "block";
 
     try {
-      // The request body is now empty because the backend uses the token
-      // to find the student's score automatically.
       const res = await fetch("http://localhost:8080/api/colleges/recommend", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify({}) // Sending an empty object
+        body: JSON.stringify({})
       });
 
       const data = await res.json();
       loadingSpinner.style.display = "none";
 
       if (res.ok && data.length > 0) {
-        // Display the results in a cleaner format
-        resultsGrid.innerHTML = data.map(college => `
-          <div class="college-card">
-            <div class="college-card-content">
-                <h3>${college.collegeName}</h3>
-                <p class="location">${college.location}</p>
-            </div>
-            <div class="college-card-footer">
-                <a href="${college.officialLink}" class="btn-details" target="_blank">Official Link</a>
-                <button class="btn-save" data-college-id="${college._id}">Save College</button>
-            </div>
-          </div>
-        `).join("");
+        resultsGrid.innerHTML = data.map(college => {
+            let totalSeats = 0;
+            const branchesHTML = college.branches.map(branch => {
+                totalSeats += branch.seats;
+                return `
+                    <li class="branch-item">
+                        <span>${branch.branchName}</span>
+                        <span class="branch-details">Fees: ₹${branch.fees.toLocaleString('en-IN')} | Seats: ${branch.seats}</span>
+                    </li>
+                `;
+            }).join("");
+
+            return `
+              <div class="flip-card">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <div class="college-card">
+                      <div class="college-card-content">
+                          <h3>${college.collegeName}</h3>
+                          <p class="location">${college.location}</p>
+                      </div>
+                      <div class="college-card-footer">
+                          <button class="btn-details flip-btn">More Details</button>
+                          <button class="btn-save" data-college-id="${college._id}">Save College</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flip-card-back">
+                    <div class="college-card">
+                      <div class="college-card-content">
+                          <h4>Branches & Info</h4>
+                          <ul class="branch-list">
+                              ${branchesHTML}
+                          </ul>
+                          <div class="summary-info">
+                              <p><strong>Total Seats:</strong> ${totalSeats}</p>
+                          </div>
+                      </div>
+                      <div class="college-card-footer">
+                           <button class="btn-details flip-btn">Back</button>
+                           <a href="${college.officialLink}" class="btn-details btn-link" target="_blank" rel="noopener noreferrer">Official Link</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+        }).join("");
       } else {
-        // Handle cases where no colleges are found or there's an error
         const errorData = await res.json().catch(() => ({}));
-        resultsGrid.innerHTML = `<p class='placeholder-text'>${errorData.message || 'No colleges found for your score. Please update your score in "My Profile".'}</p>`;
+        resultsGrid.innerHTML = `<p class='placeholder-text'>${errorData.message || 'No colleges found. Please update your score in "My Profile".'}</p>`;
       }
     } catch (err) {
       console.error("❌ Error fetching recommendations:", err);
@@ -115,7 +144,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Event listener for the 'Save College' button
   resultsGrid.addEventListener('click', async (e) => {
       if (e.target.classList.contains('btn-save')) {
           const saveButton = e.target;
@@ -138,6 +166,15 @@ document.addEventListener("DOMContentLoaded", () => {
               alert('An error occurred. Please try again.');
           }
       }
+  });
+  
+  resultsGrid.addEventListener('click', (e) => {
+    if (e.target.classList.contains('flip-btn')) {
+        const cardInner = e.target.closest('.flip-card-inner');
+        if (cardInner) {
+            cardInner.classList.toggle('is-flipped');
+        }
+    }
   });
 });
 </script>
