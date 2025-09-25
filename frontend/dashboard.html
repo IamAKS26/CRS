@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard | College Recommendation System</title>
   <link rel="stylesheet" href="dashboardstyle.css">
-</head>
+  </head>
 <body>
 
 <header class="navbar">
@@ -91,10 +91,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const branchesHTML = college.branches.map(branch => {
                 totalSeats += branch.seats;
                 return `
-                    <li class="branch-item">
-                        <span>${branch.branchName}</span>
-                        <span class="branch-details">Fees: ₹${branch.fees.toLocaleString('en-IN')} | Seats: ${branch.seats}</span>
-                    </li>
+                        <li class="branch-item">
+                            <span>${branch.branchName}</span>
+                            <span class="branch-details">Fees: ₹${branch.fees.toLocaleString('en-IN')} | Seats: ${branch.seats}</span>
+                        </li>
                 `;
             }).join("");
 
@@ -109,24 +109,23 @@ document.addEventListener("DOMContentLoaded", () => {
                       </div>
                       <div class="college-card-footer">
                           <button class="btn-details flip-btn">More Details</button>
-                          <button class="btn-save" data-college-id="${college._id}">Save College</button>
+                           <a href="${college.officialLink}" class="btn-details btn-link" target="_blank" rel="noopener noreferrer">Official Link</a>
                       </div>
                     </div>
                   </div>
                   <div class="flip-card-back">
                     <div class="college-card">
-                      <div class="college-card-content">
+                      <div class="college-card-header-back">
                           <h4>Branches & Info</h4>
+                          <button class="btn-details flip-btn">Back</button>
+                      </div>
+                      <div class="college-card-content">
                           <ul class="branch-list">
                               ${branchesHTML}
                           </ul>
                           <div class="summary-info">
                               <p><strong>Total Seats:</strong> ${totalSeats}</p>
                           </div>
-                      </div>
-                      <div class="college-card-footer">
-                           <button class="btn-details flip-btn">Back</button>
-                           <a href="${college.officialLink}" class="btn-details btn-link" target="_blank" rel="noopener noreferrer">Official Link</a>
                       </div>
                     </div>
                   </div>
@@ -143,31 +142,8 @@ document.addEventListener("DOMContentLoaded", () => {
       resultsGrid.innerHTML = "<p class='placeholder-text'>A server error occurred. Please try again later.</p>";
     }
   });
-
-  resultsGrid.addEventListener('click', async (e) => {
-      if (e.target.classList.contains('btn-save')) {
-          const saveButton = e.target;
-          const collegeId = saveButton.dataset.collegeId;
-          try {
-              const res = await fetch('http://localhost:8080/api/students/me/save-college', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                  body: JSON.stringify({ collegeId })
-              });
-              if (res.ok) {
-                  saveButton.textContent = 'Saved!';
-                  saveButton.disabled = true;
-              } else {
-                  const errorData = await res.json();
-                  alert(`Error: ${errorData.message}`);
-              }
-          } catch (err) {
-              console.error('Failed to save college:', err);
-              alert('An error occurred. Please try again.');
-          }
-      }
-  });
   
+  // This event listener handles flipping the card and does not need to be changed.
   resultsGrid.addEventListener('click', (e) => {
     if (e.target.classList.contains('flip-btn')) {
         const cardInner = e.target.closest('.flip-card-inner');
