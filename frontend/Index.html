@@ -4,15 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>College Recommendation System</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="indexstyle.css">
 </head>
 <body>
-    <header class="navbar">
+  
+    <!-- Animated background -->
+    <div class="background-animation"></div>
+
+    <header class="navbar" role="banner">
         <div class="container">
             <a href="index.html" class="logo">CollegeFinder</a>
-            <nav>
+            
+            
+            
+            <nav role="navigation" aria-label="Main Navigation">
                 <ul>
-                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="index.html" class="active" aria-current="page">Home</a></li>
                     <li><a href="./about.html">About</a></li>
                     <li><a href="./Student_login.html">Login</a></li>
                     <li><a href="./Student_login.html" class="btn-register">Register</a></li>
@@ -21,33 +33,45 @@
         </div>
     </header>
 
-    <main>
-        <section class="hero">
+    <main id="main-content">
+        <section class="hero" aria-labelledby="hero-heading">
             <div class="container">
-                <h1>Find Your Future College Today</h1>
+                <h1 id="hero-heading">Find Your Future College Today</h1>
                 <p>Personalized recommendations based on your preferences, scores, and interests.</p>
                 <a href="./Student_login.html" class="btn-primary">Get Started Now</a>
             </div>
         </section>
 
-        <section class="featured-colleges">
+        <section class="featured-colleges" aria-labelledby="featured-heading">
             <div class="container">
-                <h2>Featured Colleges</h2>
-                <p><a href="https://pvppcoe.ac.in/">Vasantdada Patil Pratishthan's College of Engineering and Visual Arts</a></p>
-                <div id="featured-colleges-grid" class="colleges-grid">
+                <h2 id="featured-heading">Featured Colleges</h2>
+                <p><a href="https://pvppcoe.ac.in/" aria-label="Vasantdada Patil Pratishthan's College of Engineering and Visual Arts">Vasantdada Patil Pratishthan's College of Engineering and Visual Arts</a></p>
+                
+                <!-- This area will be updated dynamically by your script -->
+                <div id="featured-colleges-grid" class="colleges-grid" aria-live="polite" aria-atomic="true">
                     <p class="loading-text">Loading colleges...</p>
-                    
                 </div>
             </div>
         </section>
     </main>
 
-    <footer>
+    <footer role="contentinfo">
         <div class="container">
             <p>&copy; 2025 CollegeFinder. All Rights Reserved. (Mumbai, Maharashtra)</p>
         </div>
     </footer>
 
     <script src="indexscript.js"></script>
+    <!-- Script for navbar toggle -->
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const nav = document.querySelector('.navbar nav');
+
+        navToggle.addEventListener('click', () => {
+            nav.classList.toggle('nav--visible');
+            const isExpanded = nav.classList.contains('nav--visible');
+            navToggle.setAttribute('aria-expanded', isExpanded);
+        });
+    </script>
 </body>
 </html>

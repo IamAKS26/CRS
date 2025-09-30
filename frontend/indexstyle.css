@@ -1,26 +1,43 @@
 /* public/style.css */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 :root {
-    --primary-color: #3498db;
-    --secondary-color: #2980b9;
-    --background-color: #ecf0f1;
-    --text-color: #34495e;
-    --heading-color: #2c3e50;
-    --card-bg: #ffffff;
-    --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    --footer-bg: #2c3e50;
+    --primary-accent: #FF8C00; /* Dark Orange */
+    --secondary-accent: #FFA500; /* Orange */
+    --glow-effect: 0 0 15px rgba(255, 165, 0, 0.6);
+    --background-light: #FFF8E1; /* Light Yellow */
+    --text-primary: #333333;
+    --text-secondary: #555555;
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --card-border: 1px solid rgba(0, 0, 0, 0.1);
+    --footer-bg: #FFF3E0; /* Lighter Orange */
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
     margin: 0;
     line-height: 1.7;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    transition: background-color 0.3s, color 0.3s;
+    background-color: var(--background-light);
+    color: var(--text-primary);
+    overflow-x: hidden;
+}
+
+.background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(-45deg, #FFDEAD, #FFDAB9, #FFA07A, #FF7F50);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    z-index: -1;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .container {
@@ -29,26 +46,46 @@ body {
     padding: 0 20px;
 }
 
+/* Accessibility: Skip Link Styling */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--primary-accent);
+    color: white;
+    padding: 8px;
+    z-index: 1001;
+    transition: top 0.3s;
+}
+
+.skip-link:focus {
+    top: 10px;
+}
+
 /* Navbar */
 .navbar {
-    background: var(--card-bg);
-    box-shadow: var(--card-shadow);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding: 1rem 0;
     position: sticky;
     top: 0;
     z-index: 1000;
-    transition: background-color 0.3s;
 }
 .navbar .container {
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 .logo {
     font-size: 1.9rem;
     font-weight: 700;
-    color: var(--primary-color);
+    color: var(--primary-accent);
     text-decoration: none;
+}
+/* This new rule pushes the navigation to the far right */
+.navbar nav {
+    margin-left: auto;
 }
 .navbar nav ul {
     list-style: none;
@@ -57,52 +94,87 @@ body {
     display: flex;
     align-items: center;
 }
-.navbar nav li {
-    margin-left: 30px;
-}
+.navbar nav li { margin-left: 30px; }
 .navbar nav a {
     text-decoration: none;
-    color: var(--text-color);
+    color: var(--text-secondary);
     font-weight: 600;
-    transition: color 0.3s ease;
+    transition: color 0.3s;
 }
 .navbar nav a:hover, .navbar nav a.active {
-    color: var(--primary-color);
+    color: var(--primary-accent);
 }
 .btn-register {
-    background: var(--primary-color);
+    background: var(--primary-accent);
     color: #fff !important;
     padding: 10px 22px;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 .btn-register:hover {
-    background: var(--secondary-color);
+    background: var(--secondary-accent);
+    box-shadow: var(--glow-effect);
 }
+
+/* --- Hamburger Menu Button --- */
+.nav-toggle {
+    display: none; /* Hidden on desktop */
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    padding: 0.5em;
+    margin-left: auto; /* Pushes hamburger to the right on mobile */
+    z-index: 1001;
+}
+
+.hamburger {
+    display: block;
+    position: relative;
+    width: 1.75em;
+    height: 2px;
+    background: var(--primary-accent);
+    transition: transform 0.3s ease;
+}
+
+.hamburger::before,
+.hamburger::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary-accent);
+    transition: transform 0.3s ease, top 0.3s ease, bottom 0.3s ease;
+}
+
+.hamburger::before { top: -6px; }
+.hamburger::after { bottom: -6px; }
+
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070') center/cover no-repeat;
-    color: #fff;
     text-align: center;
     padding: 120px 0;
+    position: relative;
 }
 .hero h1 {
     font-size: 3.8rem;
     font-weight: 700;
     margin-bottom: 15px;
     line-height: 1.2;
+    color: var(--text-primary);
 }
 .hero p {
     font-size: 1.3rem;
-    font-weight: 300;
+    font-weight: 400;
     margin-bottom: 40px;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    color: var(--text-secondary);
 }
 .btn-primary {
-    background: var(--primary-color);
+    background: var(--primary-accent);
     color: #fff;
     padding: 16px 35px;
     text-decoration: none;
@@ -110,21 +182,20 @@ body {
     font-weight: 600;
     border-radius: 5px;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
 }
 .btn-primary:hover {
-    background: var(--secondary-color);
+    background: var(--secondary-accent);
     transform: translateY(-3px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    box-shadow: var(--glow-effect);
 }
 
-/* Featured Colleges Section */
-.featured-colleges {
-    padding: 100px 0;
-}
+/* Featured Colleges */
+.featured-colleges { padding: 100px 0; }
 .featured-colleges h2 {
     text-align: center;
     font-size: 2.8rem;
-    color: var(--heading-color);
+    color: var(--text-primary);
     margin-bottom: 60px;
 }
 .colleges-grid {
@@ -134,16 +205,16 @@ body {
 }
 .college-card {
     background: var(--card-bg);
+    border: var(--card-border);
     border-radius: 12px;
-    box-shadow: var(--card-shadow);
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
 }
 .college-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
 }
 .college-card-image {
     width: 100%;
@@ -153,27 +224,20 @@ body {
 .college-card-content {
     padding: 25px;
     flex-grow: 1;
-    display: flex;
-    flex-direction: column;
 }
 .college-card-content h3 {
     margin: 0 0 10px;
     font-size: 1.5rem;
-    color: var(--heading-color);
+    color: var(--text-primary);
 }
 .college-card-content .location {
-    color: #7f8c8d;
+    color: var(--text-secondary);
     font-weight: 600;
     margin-bottom: 15px;
 }
-.college-card-content .description {
-    font-size: 1rem;
-    flex-grow: 1;
-    color: var(--text-color);
-}
 .college-card-footer {
     padding: 20px 25px;
-    border-top: 1px solid #ecf0f1;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -184,63 +248,99 @@ body {
     color: #f39c12;
 }
 .btn-details {
-    background: var(--primary-color);
+    background: var(--primary-accent);
     color: #fff;
     text-decoration: none;
     padding: 9px 18px;
     border-radius: 5px;
     font-weight: 600;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 .btn-details:hover {
-    background: var(--secondary-color);
-}
-.loading-text {
-    font-size: 1.2rem;
-    color: #777;
-    text-align: center;
-    grid-column: 1 / -1;
+    background: var(--secondary-accent);
+    box-shadow: var(--glow-effect);
 }
 
 /* Footer */
 footer {
     background: var(--footer-bg);
-    color: #bdc3c7;
+    color: var(--text-secondary);
     text-align: center;
     padding: 25px 0;
-    transition: background-color 0.3s;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-/* -------------------- DARK MODE STYLES -------------------- */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --primary-color: #3498db;
-        --secondary-color: #5dade2;
-        --background-color: #1a1a2e;
-        --text-color: #e0e0e0;
-        --heading-color: #ffffff;
-        --card-bg: #1e2a47;
-        --card-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-        --footer-bg: #16213e;
+/* --- Mobile Navigation Styles --- */
+@media (max-width: 768px) {
+    .nav-toggle {
+        display: block; /* Show the hamburger */
     }
 
-    .hero {
-        background: linear-gradient(rgba(26, 26, 46, 0.8), rgba(26, 26, 46, 0.8)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070') center/cover no-repeat;
+    .navbar nav {
+        display: none; /* Hide nav by default */
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: rgba(255, 253, 250, 0.95);
+        backdrop-filter: blur(10px);
+        width: 100%;
+        max-width: 300px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        border-radius: 0 0 0 10px;
+        margin-left: 0; /* Reset margin for mobile */
     }
 
-    .college-card-content .location {
-        color: #9ab;
-    }
-
-    .college-card-footer {
-        border-top-color: #334a6f;
+    .navbar nav.nav--visible {
+        display: block; /* Show when active */
     }
     
-    .rating {
-        color: #f1c40f;
+    .navbar nav ul {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1em 0;
+    }
+    
+    .navbar nav li {
+        margin-left: 0;
+        text-align: center;
+    }
+    
+    .navbar nav a {
+        padding: 1em;
+        display: block;
+        color: var(--text-primary);
     }
 
-    footer {
-        color: #aeb8c4;
+    .navbar nav a:hover {
+        background: rgba(0,0,0,0.05);
+    }
+
+    .btn-register {
+        margin: 1em;
+        display: block;
+        text-align: center;
+    }
+
+    /* Animate hamburger to an 'X' when menu is open */
+    .nav-toggle[aria-expanded="true"] .hamburger {
+        transform: rotate(45deg);
+    }
+
+    .nav-toggle[aria-expanded="true"] .hamburger::before {
+        top: 0;
+        transform: rotate(90deg);
+    }
+
+    .nav-toggle[aria-expanded="true"] .hamburger::after {
+        opacity: 0; /* Hide bottom bar for the 'X' */
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero p {
+        font-size: 1.1rem;
     }
 }
+

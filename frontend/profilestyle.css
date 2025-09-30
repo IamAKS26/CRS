@@ -1,23 +1,25 @@
 /* General Body and Font Styling */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 :root {
-    --primary-color: #007BFF;
-    --secondary-color: #6c757d;
-    --background-color: #f0f4f8;
-    --text-color: #333;
+    --primary-accent: #FF8C00; /* Dark Orange */
+    --secondary-accent: #FFA500; /* Orange */
+    --background-color: #FFF8E1; /* Light Yellow */
+    --text-primary: #333333;
+    --text-secondary: #555555;
     --card-bg: #fff;
     --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     --success-color: #28a745;
     --error-color: #dc3545;
+    --glow-effect: 0 0 15px rgba(255, 165, 0, 0.6);
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
     margin: 0;
     line-height: 1.6;
     background-color: var(--background-color);
-    color: var(--text-color);
+    color: var(--text-primary);
 }
 
 .container {
@@ -26,11 +28,16 @@ body {
     padding: 0 20px;
 }
 
-/* Navbar (Existing styles are fine) */
+/* Navbar */
 .navbar {
-    background: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 .navbar .container {
     display: flex;
@@ -40,7 +47,7 @@ body {
 .logo {
     font-size: 1.8rem;
     font-weight: 700;
-    color: var(--primary-color);
+    color: var(--primary-accent);
     text-decoration: none;
 }
 .navbar nav ul {
@@ -53,11 +60,11 @@ body {
 }
 .navbar nav a {
     text-decoration: none;
-    color: var(--text-color);
+    color: var(--text-secondary);
     font-weight: 600;
 }
 .navbar nav a:hover, .navbar nav a.active {
-    color: var(--primary-color);
+    color: var(--primary-accent);
 }
 .btn-logout {
     background: #e74c3c;
@@ -66,7 +73,12 @@ body {
     border-radius: 5px;
     border: none;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
+.btn-logout:hover {
+    background-color: #c0392b;
+}
+
 
 /* Profile Page Layout */
 .profile-page-container {
@@ -95,7 +107,7 @@ body {
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 15px;
-    border: 4px solid var(--primary-color);
+    border: 4px solid var(--primary-accent);
 }
 .profile-sidebar h2 { margin: 0 0 5px; }
 .profile-sidebar p { color: #777; margin-bottom: 20px; }
@@ -121,14 +133,15 @@ body {
     transition: all 0.3s;
 }
 .btn-primary {
-    background-color: var(--primary-color);
+    background-color: var(--primary-accent);
     color: #fff;
 }
 .btn-primary:hover {
-    background-color: var(--secondary-color);
+    background-color: var(--secondary-accent);
+    box-shadow: var(--glow-effect);
 }
 .btn-secondary {
-    background-color: var(--secondary-color);
+    background-color: #6c757d;
     color: #fff;
 }
 .btn-secondary:hover {
@@ -148,7 +161,7 @@ body {
     font-size: 1.3rem;
     font-weight: 600;
     padding-bottom: 10px;
-    color: var(--primary-color);
+    color: var(--primary-accent);
 }
 .form-row {
     display: grid;
@@ -161,14 +174,14 @@ body {
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
-    color: #555;
+    color: var(--text-secondary);
 }
 #profile-form input, #profile-form select {
     width: 100%;
     padding: 12px;
     border-radius: 5px;
     font-size: 1rem;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
     transition: all 0.3s ease-in-out;
     box-sizing: border-box;
 }
@@ -179,7 +192,7 @@ body {
     background: transparent;
     border: 1px solid transparent;
     padding-left: 0;
-    color: #333;
+    color: var(--text-primary);
     font-weight: 400;
     cursor: default;
 }
@@ -192,8 +205,8 @@ body {
 }
 #profile-form.is-editing input:focus,
 #profile-form.is-editing select:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 5px rgba(255, 140, 0, 0.3);
     outline: none;
 }
 
@@ -222,4 +235,3 @@ body {
 }
 .toast.success { background-color: var(--success-color); }
 .toast.error { background-color: var(--error-color); }
-
