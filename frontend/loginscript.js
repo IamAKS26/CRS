@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ✅ Backend API base URL
-    const API_BASE = "http://localhost:8080/auth";
+    const API_BASE = "https://crs-y55o.vercel.app/auth";
 
     // ✅ Save token helper
     function saveToken(token) {
