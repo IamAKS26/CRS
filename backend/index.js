@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 8080;
 
 // Allowed origins whitelist
 const allowedOrigins = [
-  "https://crs-zprf-7ldu2vy6j-adityas-projects-dbcf6901.vercel.app", // The new URL
+  "https://crs-one-sigma.vercel.app", // Your new, working URL
   "https://crs-zprf.vercel.app",
   "http://localhost:3000",
 ];
