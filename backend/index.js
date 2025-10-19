@@ -11,8 +11,9 @@ const PORT = process.env.PORT || 8080;
 
 // Allowed origins whitelist
 const allowedOrigins = [
-  "https://crs-zprf.vercel.app",  // your frontend URL
-  "http://localhost:3000",         // for local testing
+  "https://crs-zprf-7ldu2vy6j-adityas-projects-dbcf6901.vercel.app", // The new URL
+  "https://crs-zprf.vercel.app",
+  "http://localhost:3000",
 ];
 
 // CORS options with dynamic origin check
