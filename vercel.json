@@ -20,8 +20,12 @@
       "dest": "backend/index.js"
     },
     {
-      "src": "/(.*)",
+      "src": "/(.*\\.(css|js|ico|png|jpg|jpeg|svg))$",
       "dest": "frontend/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/Index.html"
     }
   ]
 }
