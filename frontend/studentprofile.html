@@ -4,24 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile | College Recommendation System</title>
-    <link rel="stylesheet" href="profilestyle.css">
+    <link rel="stylesheet" href="/profilestyle.css">
 
     <script>
       // ✅ Check if token exists
       const token = localStorage.getItem("token");
       if (!token) {
-        window.location.href = "Student_login.html"; // redirect if not logged in
+        // --- PATH UPDATED ---
+        window.location.href = "/Student_login.html"; // redirect if not logged in
       }
     </script>
 </head>
 <body>
     <header class="navbar">
         <div class="container">
-            <a href="index.html" class="logo">CollegeFinder</a>
+            <a href="/index.html" class="logo">CollegeFinder</a>
             <nav>
                 <ul>
-                    <li><a href="dashboard.html">Dashboard</a></li>
-                    <li><a href="studentprofile.html" class="active">My Profile</a></li>
+                    <li><a href="/dashboard.html">Dashboard</a></li>
+                    <li><a href="/studentprofile.html" class="active">My Profile</a></li>
                     <li><a href="#" id="logout-btn" class="btn-logout">Logout</a></li>
                 </ul>
             </nav>
@@ -38,9 +39,7 @@
                 <h2 id="profile-name-display">Loading...</h2>
                 <p id="profile-email-display">Loading...</p>
                 <div class="profile-stats">
-                    <!-- <div><span id="saved-colleges">0</span> Saved Colleges</div>
-                    <div><span id="applications">0</span> Applications</div> -->
-                </div>
+                    </div>
             </aside>
 
             <section class="profile-main">
@@ -117,6 +116,7 @@
     // ✅ Fetch profile with improved logic
     async function fetchProfile() {
         try {
+            // --- API PATH UPDATED ---
             const res = await fetch("/api/students/me", {
                 method: "GET",
                 headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
@@ -162,7 +162,8 @@
             console.error("Fetch profile error:", err); // Log the actual error for debugging
             alert("Session expired or profile not found. Please log in again.");
             localStorage.removeItem("token");
-            window.location.href = "Student_login.html";
+            // --- PATH UPDATED ---
+            window.location.href = "/Student_login.html";
         }
     }
 
@@ -215,7 +216,9 @@
         };
 
         try {
-            const res = await fetch("http://localhost:8080/api/students/me", {
+            // --- API PATH UPDATED ---
+            // Removed http://localhost:8080 to use a relative path
+            const res = await fetch("/api/students/me", {
                 method: "PUT",
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -243,7 +246,8 @@
     document.getElementById("logout-btn").addEventListener("click", () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user"); // Also remove user data on logout
-        window.location.href = "Student_login.html";
+        // --- PATH UPDATED ---
+        window.location.href = "/Student_login.html";
     });
 </script>
     

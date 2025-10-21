@@ -57,7 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 loginMessage.textContent = "Login successful! Redirecting...";
                 loginMessage.className = "message success";
                 setTimeout(() => {
-                    window.location.href = "studentprofile.html";
+                    // --- PATH UPDATED ---
+                    window.location.href = "/studentprofile.html";
                 }, 1000);
             } else {
                 loginMessage.textContent = data.message || "Login failed";
@@ -100,7 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 registerMessage.textContent = "Signup successful! Redirecting...";
                 registerMessage.className = "message success";
                 setTimeout(() => {
-                    window.location.href = "studentprofile.html";
+                    // --- PATH UPDATED ---
+                    window.location.href = "/studentprofile.html";
                 }, 1000);
             } else if (res.ok) {
                 registerMessage.textContent = "Registration successful! You can now log in.";
