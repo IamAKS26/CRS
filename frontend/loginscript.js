@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ✅ Backend API base URL
-        const API_BASE = "http://localhost:8080/auth";
+        const API_BASE = "http://localhost:8080/auth"; // Correct for local development
     // ✅ Save token helper
     function saveToken(token) {
         if (token) {
@@ -50,17 +50,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (res.ok && data.token) {
                 saveToken(data.token); // save JWT
                 
-                // --- ADD THIS LINE ---
                 // Save the user object to localStorage so other pages can access it
                 localStorage.setItem("user", JSON.stringify(data.user)); 
                 
                 loginMessage.textContent = "Login successful! Redirecting...";
                 loginMessage.className = "message success";
                 setTimeout(() => {
-                    // --- PATH UPDATED ---
-                    window.location.href = "./studentprofile.html";
+                    // --- PATH STANDARDIZED ---
+                    // Changed from "./studentprofile.html" to "studentprofile.html"
+                    window.location.href = "studentprofile.html"; 
                 }, 1000);
             } else {
+                // Display error message from backend or a generic one
                 loginMessage.textContent = data.message || "Login failed";
                 loginMessage.className = "message error";
             }
@@ -98,13 +99,16 @@ document.addEventListener('DOMContentLoaded', () => {
             if (res.ok && data.token) {
                 // ✅ Optional: Auto-login after signup
                 saveToken(data.token);
+                 // Save the user object to localStorage immediately after signup too
+                localStorage.setItem("user", JSON.stringify(data.user));
                 registerMessage.textContent = "Signup successful! Redirecting...";
                 registerMessage.className = "message success";
                 setTimeout(() => {
-                    // --- PATH UPDATED ---
+                    // --- PATH CORRECT ---
                     window.location.href = "studentprofile.html";
                 }, 1000);
-            } else if (res.ok) {
+            } else if (res.ok) { 
+                // This case might not happen if signup always returns a token on success
                 registerMessage.textContent = "Registration successful! You can now log in.";
                 registerMessage.className = "message success";
                 setTimeout(() => {
@@ -112,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     loginToggle.click(); // switch to login form
                 }, 2000);
             } else {
+                 // Display error message from backend or a generic one
                 registerMessage.textContent = data.message || "Registration failed";
                 registerMessage.className = "message error";
             }

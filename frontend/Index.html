@@ -4,30 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>College Recommendation System</title>
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Stylesheet -->
     <link rel="stylesheet" href="indexstyle.css">
 </head>
 <body>
   
-    <!-- Animated background -->
     <div class="background-animation"></div>
 
     <header class="navbar" role="banner">
         <div class="container">
-            <a href="./index.html" class="logo">CollegeFinder</a>
-            
-            
+            <a href="index.html" class="logo">CollegeFinder</a> 
             
             <nav role="navigation" aria-label="Main Navigation">
                 <ul>
-                    <li><a href="./index.html" class="active" aria-current="page">Home</a></li>
-                    <li><a href="/about.html">About</a></li>
-                    <li><a href="/Student_login.html">Login</a></li>
-                    <li><a href="/Student_login.html" class="btn-register">Register</a>
+                    <li><a href="index.html" class="active" aria-current="page">Home</a></li> 
+                    <li><a href="about.html">About</a></li> 
+                     <li><a href="Student_login.html">Login</a></li>
+                     <li><a href="Student_login.html" class="btn-register">Register</a> 
                 </ul>
             </nav>
         </div>
@@ -38,7 +33,7 @@
             <div class="container">
                 <h1 id="hero-heading">Find Your Future College Today</h1>
                 <p>Personalized recommendations based on your preferences, scores, and interests.</p>
-                <a href="./Student_login.html" class="btn-primary">Get Started Now</a>
+                 <a href="Student_login.html" class="btn-primary">Get Started Now</a>
             </div>
         </section>
 
@@ -47,10 +42,9 @@
                 <h2 id="featured-heading">Featured Colleges</h2>
                 <p><a href="https://pvppcoe.ac.in/" aria-label="Vasantdada Patil Pratishthan's College of Engineering and Visual Arts">Vasantdada Patil Pratishthan's College of Engineering and Visual Arts</a></p>
                 
-                <!-- This area will be updated dynamically by your script -->
-                <div id="featured-colleges-grid" class="colleges-grid" aria-live="polite" aria-atomic="true">
+                <!-- <div id="featured-colleges-grid" class="colleges-grid" aria-live="polite" aria-atomic="true">
                     <p class="loading-text">Loading colleges...</p>
-                </div>
+                </div> -->
             </div>
         </section>
     </main>
@@ -62,7 +56,6 @@
     </footer>
 
     <script src="indexscript.js"></script>
-    <!-- Script for navbar toggle -->
     <script>
         const navToggle = document.querySelector('.nav-toggle');
         const nav = document.querySelector('.navbar nav');
