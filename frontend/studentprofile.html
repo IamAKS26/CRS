@@ -11,7 +11,7 @@
       const token = localStorage.getItem("token");
       if (!token) {
         // --- PATH UPDATED ---
-        window.location.href = "/Student_login.html"; // redirect if not logged in
+        window.location.href = "Student_login.html"; // redirect if not logged in
       }
     </script>
 </head>
@@ -117,7 +117,7 @@
     async function fetchProfile() {
         try {
             // --- API PATH UPDATED ---
-            const res = await fetch("/api/students/me", {
+            const res = await fetch("http://localhost:8080/api/students/me", {
                 method: "GET",
                 headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
             });
@@ -163,7 +163,7 @@
             alert("Session expired or profile not found. Please log in again.");
             localStorage.removeItem("token");
             // --- PATH UPDATED ---
-            window.location.href = "/Student_login.html";
+            window.location.href = "Student_login.html";
         }
     }
 
@@ -218,7 +218,7 @@
         try {
             // --- API PATH UPDATED ---
             // Removed http://localhost:8080 to use a relative path
-            const res = await fetch("/api/students/me", {
+            const res = await fetch("http://localhost:8080/api/students/me", {
                 method: "PUT",
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -247,7 +247,7 @@
         localStorage.removeItem("token");
         localStorage.removeItem("user"); // Also remove user data on logout
         // --- PATH UPDATED ---
-        window.location.href = "/Student_login.html";
+        window.location.href = "Student_login.html";
     });
 </script>
     

@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ✅ Backend API base URL
-        const API_BASE = "/auth";
+        const API_BASE = "http://localhost:8080/auth";
     // ✅ Save token helper
     function saveToken(token) {
         if (token) {
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 loginMessage.className = "message success";
                 setTimeout(() => {
                     // --- PATH UPDATED ---
-                    window.location.href = "/studentprofile.html";
+                    window.location.href = "./studentprofile.html";
                 }, 1000);
             } else {
                 loginMessage.textContent = data.message || "Login failed";
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 registerMessage.className = "message success";
                 setTimeout(() => {
                     // --- PATH UPDATED ---
-                    window.location.href = "/studentprofile.html";
+                    window.location.href = "studentprofile.html";
                 }, 1000);
             } else if (res.ok) {
                 registerMessage.textContent = "Registration successful! You can now log in.";

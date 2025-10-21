@@ -8,3 +8,5 @@ mongoose.connect(mongo_url)
 }).catch((err)=> {
     console.log('mongoDB connection Error',err);
 }   )
+
+// The extra '}' at the end has been removed.
