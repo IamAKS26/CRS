@@ -11,7 +11,8 @@ const PORT = process.env.PORT || 8080;
 
 // Allowed origins whitelist
 const allowedOrigins = [
-  "https://crs-neon.vercel.app/", 
+  "https://crsv1.onrender.com", // Add your new frontend URL
+  "https://crs-one-sigma.vercel.app", 
   "http://localhost:3000",
   "http://127.0.0.1:5500", 
 ];

@@ -217,7 +217,7 @@
         try {
             // --- API PATH UPDATED ---
             
-            const res = await fetch("/api/students/me", {
+            const res = await fetch("https://crs-backend.onrender.com/api/colleges/recommend", {
                 method: "PUT",
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,

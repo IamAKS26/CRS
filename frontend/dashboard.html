@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadingSpinner.style.display = "block";
 
     try {
-      const res = await fetch("/api/colleges/recommend", {
+      const res = await fetch("https://crs-backend.onrender.com/api/colleges/recommend", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

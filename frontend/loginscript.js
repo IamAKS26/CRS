@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ✅ Backend API base URL
-        const API_BASE = "/auth"; // Correct for local development
+        const API_BASE = "https://crs-backend.onrender.com/auth";// Correct for local development
     // ✅ Save token helper
     function saveToken(token) {
         if (token) {
