@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to fetch college data from the backend API
     const fetchAndDisplayColleges = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/colleges'); // Our backend endpoint
+            const response = await fetch('/api/colleges'); // Our backend endpoint
             
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);

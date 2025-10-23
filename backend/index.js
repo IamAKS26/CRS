@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 8080;
 const allowedOrigins = [
   "https://crs-one-sigma.vercel.app", 
   "http://localhost:3000",
-  "http://127.0.0.1:5500", // <-- ADD THIS LINE
+  "http://127.0.0.1:5500", 
 ];
 
 // CORS options with dynamic origin check

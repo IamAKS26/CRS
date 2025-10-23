@@ -116,7 +116,7 @@
     async function fetchProfile() {
         try {
             // --- API PATH UPDATED ---
-            const res = await fetch("http://localhost:8080/api/students/me", {
+            const res = await fetch("/api/students/me", {
                 method: "GET",
                 headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
             });
@@ -216,8 +216,8 @@
 
         try {
             // --- API PATH UPDATED ---
-            // Removed http://localhost:8080 to use a relative path
-            const res = await fetch("http://localhost:8080/api/students/me", {
+            
+            const res = await fetch("/api/students/me", {
                 method: "PUT",
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
