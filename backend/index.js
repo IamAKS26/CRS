@@ -9,9 +9,10 @@ const studentRoutes = require("./Routes/studentRoutes");
 
 const PORT = process.env.PORT || 8080;
 
+
 // Allowed origins whitelist
 const allowedOrigins = [
-  "https://crsv1.onrender.com", // Add your new frontend URL
+  "https://crsv1.onrender.com", // <-- ADD YOUR NEW FRONTEND URL
   "https://crs-one-sigma.vercel.app", 
   "http://localhost:3000",
   "http://127.0.0.1:5500", 
