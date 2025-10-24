@@ -116,7 +116,7 @@
     async function fetchProfile() {
         try {
             // --- API PATH UPDATED ---
-            const res = await fetch("/api/students/me", {
+            const res = await fetch("https://crs-backend-yoh7.onrender.com/api/students/me", {
                 method: "GET",
                 headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
             });
